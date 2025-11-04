@@ -81,4 +81,3 @@ Le notebook présente :
 
 ---
 
-**Fin du README.**
