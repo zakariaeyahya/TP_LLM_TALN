@@ -1,4 +1,4 @@
-# README — tp_promping (version complète et simple)
+# tp_promping :
 
 Ce projet a pour objectif de présenter et comparer différents types de *prompts* et leurs résultats.
 
