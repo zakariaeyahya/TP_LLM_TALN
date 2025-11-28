@@ -1,92 +1,185 @@
-# TP_LLM_TALN
+# TP_LLM_TALN - Fine-Tuning BERT pour la Classification de Tweets
 
-## Overview
+## 📌 Vue d'ensemble
 
-This repository contains resources for a sentiment analysis project targeting cryptocurrency markets. The code and artifacts focus on fine-tuning BERT-style models for text classification and preparing model predictions for submission.
+Ce dépôt contient un **Travaux Pratiques (TP)** sur le fine-tuning du modèle BERT pour la classification binaire de tweets. Le notebook principal a été préparé comme un exercice pédagogique avec **5 sections TODO** que les étudiants doivent compléter.
 
-Key highlights:
-- Fine-tuning notebook for BERT-based classification
-- Training and test CSV data provided for quick experiments
-- A sample submission file for formatting predictions
+**Objectif du TP :** Apprendre à fine-tuner BERT pour prédire le label (`target`) associé à chaque tweet (`text`) à partir d'un ensemble de données d'entraînement.
 
-## Repository structure
+**Points clés :**
+- Notebook interactif avec sections à compléter (5 TODO)
+- Fine-tuning de BERT pour la classification binaire
+- Données d'entraînement et de test fournies
+- Pipeline complet : prétraitement → tokenization → entraînement → prédiction
 
-Top-level layout:
+## 📁 Structure du dépôt
 
-- `Fine-Tuning_BERT/`
-	- `data/`
-		- `train.csv` — training dataset (text + labels)
-		- `test.csv` — test dataset (text only, for generating predictions)
-	- `notebooks/`
-		- `Bert_cassification (1).ipynb` — interactive notebook showing fine-tuning and evaluation steps
-	- `submission/`
-		- `sample_submission.csv` — example submission format expected by the evaluation pipeline
+```
+TP_LLM_TALN/
+├── Fine-Tuning_BERT/
+│   ├── notebooks/
+│   │   └── Bert_cassification (1).ipynb  # Notebook principal avec 5 sections TODO
+│   ├── data/                              # (si présent)
+│   │   ├── train.csv                      # Données d'entraînement (text, target)
+│   │   └── test.csv                       # Données de test (text, id)
+│   └── submission/                        # (si présent)
+│       └── sample_submission.csv          # Format de soumission attendu
+└── README.md                              # Ce fichier
+```
 
-## Quick start (Windows / PowerShell)
+**Note :** Les fichiers CSV peuvent être placés dans `/content/` si vous utilisez Google Colab, ou dans le dossier `data/` pour une exécution locale.
 
-These steps will help you create an environment and run the notebook locally.
+## 🚀 Démarrage rapide
 
-1. Create and activate a virtual environment (PowerShell):
+### Option 1 : Google Colab (Recommandé)
+
+1. Téléchargez le notebook `Bert_cassification (1).ipynb`
+2. Uploadez-le sur Google Colab
+3. Uploadez les fichiers `train.csv` et `test.csv` dans `/content/`
+4. Exécutez les cellules une par une
+
+**Avantages :** GPU gratuit, pas d'installation locale nécessaire
+
+### Option 2 : Installation locale (Windows / PowerShell)
+
+1. **Créer et activer un environnement virtuel :**
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-2. Install dependencies. There is no `requirements.txt` in the repo yet; for experimentation install the common libraries used for BERT fine-tuning:
+2. **Installer les dépendances :**
 
 ```powershell
 pip install --upgrade pip
-pip install transformers datasets torch pandas scikit-learn jupyter seaborn matplotlib
+pip install numpy pandas nltk torch scikit-learn transformers jupyter
 ```
 
-Notes:
-- Installing `torch` may require selecting the right wheel for your CUDA version. See https://pytorch.org for the recommended install command.
-- If you plan to use GPU acceleration, ensure appropriate drivers and CUDA/cuDNN are installed.
+**Note :** Pour PyTorch avec GPU, consultez https://pytorch.org pour la commande d'installation appropriée à votre version CUDA.
 
-3. Start Jupyter and open the notebook:
+3. **Télécharger les données NLTK :**
+
+```python
+import nltk
+nltk.download('stopwords')
+```
+
+4. **Lancer Jupyter :**
 
 ```powershell
 jupyter notebook
 ```
 
-Then open `Fine-Tuning_BERT/notebooks/Bert_cassification (1).ipynb` in the browser.
+5. **Ouvrir le notebook :** `Fine-Tuning_BERT/notebooks/Bert_cassification (1).ipynb`
 
-## Data format
+## 📊 Format des données
 
-- `train.csv` — expected to contain at least two columns: `text` (the input) and `label` (the target class). Inspect the file in `Fine-Tuning_BERT/data/`.
-- `test.csv` — expected to contain at least a `text` column and an `id` column for correspondence with `sample_submission.csv`.
+### `train.csv`
+Doit contenir au minimum :
+- `text` : le texte du tweet (colonne d'entrée)
+- `target` : le label binaire (0 ou 1) - colonne cible
 
-## Notebook contents
+### `test.csv`
+Doit contenir au minimum :
+- `id` : identifiant unique du tweet
+- `text` : le texte du tweet à prédire
 
-The notebook `Bert_cassification (1).ipynb` demonstrates a typical workflow:
+### Prétraitement automatique
+Le notebook applique automatiquement :
+- Suppression des URLs, balises HTML, ponctuations, emojis
+- Suppression des stopwords (anglais)
+- Conversion en minuscules
 
-- Load and inspect `train.csv`
-- Tokenize texts with a BERT tokenizer
-- Create a PyTorch/Transformers dataset and dataloaders
-- Fine-tune a pre-trained model (e.g., `bert-base-uncased`)
-- Evaluate on a validation split
-- Generate predictions for `test.csv` and save them in submission format
+## 📚 Contenu du notebook - Sections TODO
 
-## Suggested next steps (low-effort improvements)
+Le notebook `Bert_cassification (1).ipynb` est structuré comme un **TP avec 5 sections à compléter** :
 
-1. Add a `requirements.txt` or `environment.yml` for reproducible environments.
-2. Split the notebook into modular scripts:
-	 - `train.py` — training loop and checkpointing
-	 - `eval.py` — evaluation and metrics
-	 - `predict.py` — load model and create `submission.csv`
-3. Add unit tests for data loading and simple model sanity checks.
-4. Add a small README within `Fine-Tuning_BERT/` describing the exact expected columns and sample rows for `train.csv` and `test.csv`.
+### 🔍 Sections TODO à compléter :
 
-## Notes and assumptions
+1. **Cellule 13 - Tokenization et padding**
+   - Calcul de `max_len` pour les séquences
+   - Tokenization en batch avec padding et truncation
+   - Extraction des `input_ids` et `attention_masks`
 
-- This README assumes `train.csv` contains `text` and `label` columns and that `test.csv` contains `id` and `text` columns. If your files differ, update the notebook or scripts accordingly.
-- The notebook file name includes a space and parentheses. When running scripts, consider renaming it to avoid tooling issues (e.g., `bert_classification.ipynb`).
+2. **Cellule 16 - DataLoaders**
+   - Définition de la taille de batch
+   - Création des DataLoaders avec les samplers appropriés (RandomSampler vs SequentialSampler)
 
-## Contact
+3. **Cellule 18 - Optimiseur AdamW**
+   - Configuration de l'optimiseur avec les bons paramètres
+   - Learning rate et epsilon
 
-If you have questions or want help turning the notebook into scripts or CI, open an issue or contact the repo owner.
+4. **Cellule 20 - Scheduler de learning rate**
+   - Calcul du nombre total de steps d'entraînement
+   - Création du scheduler avec warmup
+
+5. **Cellule 23 - Boucle d'entraînement**
+   - Ordre des opérations pour une étape d'entraînement complète
+   - Zero grad, forward, backward, gradient clipping, optimizer step, scheduler step
+
+### 📋 Workflow complet du notebook :
+
+1. Installation des dépendances
+2. Import des bibliothèques
+3. Configuration du device (CPU/GPU)
+4. Chargement et inspection des données
+5. **Prétraitement des textes** (fonction `clean_text`)
+6. **Tokenization BERT** (TODO #1)
+7. Création du dataset et split train/validation
+8. **Création des DataLoaders** (TODO #2)
+9. Chargement du modèle BERT pré-entraîné
+10. **Configuration de l'optimiseur** (TODO #3)
+11. **Configuration du scheduler** (TODO #4)
+12. **Boucle d'entraînement** (TODO #5)
+13. Sauvegarde du meilleur modèle
+14. Chargement du modèle et prédictions sur le test
+15. Génération du fichier `submission.csv`
+
+## 🎯 Objectifs pédagogiques du TP
+
+En complétant ce TP, vous apprendrez à :
+
+- ✅ Utiliser le tokenizer BERT pour préparer les données textuelles
+- ✅ Créer des DataLoaders PyTorch avec les bons samplers
+- ✅ Configurer un optimiseur AdamW adapté au fine-tuning de BERT
+- ✅ Utiliser un scheduler de learning rate avec warmup
+- ✅ Implémenter une boucle d'entraînement complète avec gradient clipping
+- ✅ Évaluer un modèle et sauvegarder les meilleurs poids
+- ✅ Générer des prédictions sur un jeu de test
+
+## 💡 Conseils pour compléter les TODO
+
+1. **Lisez attentivement les questions** dans chaque section TODO
+2. **Consultez la documentation** :
+   - [Hugging Face Transformers](https://huggingface.co/docs/transformers)
+   - [PyTorch DataLoader](https://pytorch.org/docs/stable/data.html)
+   - [AdamW Optimizer](https://pytorch.org/docs/stable/optim.html#torch.optim.AdamW)
+3. **Testez votre code** étape par étape
+4. **Vérifiez les erreurs** : les messages d'erreur Python sont souvent très utiles
+
+## 📝 Notes importantes
+
+- Le notebook utilise `bert-base-uncased` comme modèle de base
+- La classification est binaire (2 classes : 0 et 1)
+- Le batch size recommandé est 32
+- Le learning rate recommandé est entre 2e-5 et 5e-5
+- Le nombre d'epochs est fixé à 4
+- Les fichiers CSV doivent être accessibles (dans `/content/` pour Colab ou dans le chemin spécifié)
+
+## 🔧 Configuration recommandée
+
+- **Python** ≥ 3.8
+- **GPU** recommandé (CUDA) pour accélérer l'entraînement
+- **RAM** : au moins 8 GB
+- Compatible avec **Google Colab** (GPU T4 gratuit)
+
+## 📖 Ressources supplémentaires
+
+- [BERT Paper](https://arxiv.org/abs/1810.04805)
+- [Hugging Face Course](https://huggingface.co/course)
+- [PyTorch Tutorials](https://pytorch.org/tutorials/)
 
 ---
 
-Happy fine-tuning! 🚀
+**Bon courage pour le TP ! 🚀**
