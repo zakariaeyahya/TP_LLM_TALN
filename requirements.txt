@@ -1,0 +1,19 @@
+# Pinned dependencies for TP_LLM_TALN
+# NOTE: For `torch`, prefer installing the wheel recommended at https://pytorch.org
+# (the CPU-only torch pip wheel may be large; if you have CUDA, follow the site instructions).
+
+numpy==1.25.2
+pandas==2.2.2
+scikit-learn==1.3.2
+torch==2.2.0
+transformers==4.34.0
+datasets==2.13.1
+tokenizers==0.14.3
+sentencepiece==0.1.99
+accelerate==0.17.0
+evaluate==0.4.0
+jupyter==1.0.0
+tqdm==4.66.1
+matplotlib==3.7.1
+seaborn==0.12.2
+protobuf==4.23.4
