@@ -10,23 +10,303 @@ Ce dépôt contient un **Travaux Pratiques (TP)** complet sur le fine-tuning du 
 
 ---
 
-## 📁 Structure du dépôt
+## 📁 Structure complète du dépôt
 
 ```
 TP_LLM_TALN/
-├── Fine-Tuning_BERT/
-│   ├── notebooks/
-│   │   └── Bert_cassification (1).ipynb    # Notebook principal avec 5 sections TODO
-│   ├── data/
-│   │   ├── train.csv                        # 7613 tweets d'entraînement avec labels
-│   │   └── test.csv                         # 3263 tweets de test à prédire
-│   ├── submission/
-│   │   └── sample_submission.csv            # Format de soumission attendu
-│   ├── models/                              # Dossier pour sauvegarder les modèles
-│   └── README.md                            # Documentation spécifique au module
-├── requirements.txt                          # Dépendances Python du projet
-└── README.md                                # Ce fichier (guide d'utilisation)
+│
+├── 📄 README.md                              # Ce fichier - Guide d'utilisation complet
+├── 📄 requirements.txt                      # Dépendances Python du projet
+│
+├── 📁 Fine-Tuning_BERT/                     # TP 1 : Fine-tuning BERT pour classification
+│   ├── 📁 notebooks/
+│   │   └── 📓 Bert_cassification (1).ipynb # Notebook principal avec 5 sections TODO
+│   ├── 📁 data/
+│   │   ├── 📊 train.csv                     # 7613 tweets d'entraînement avec labels (text, target)
+│   │   └── 📊 test.csv                      # 3263 tweets de test à prédire (text, id)
+│   ├── 📁 submission/
+│   │   └── 📊 sample_submission.csv         # Format de soumission attendu (id, target)
+│   ├── 📁 models/                           # Dossier pour sauvegarder les modèles entraînés
+│   │   └── (vide)                           # Les modèles seront sauvegardés ici après entraînement
+│   └── 📄 README.md                         # Documentation spécifique au module Fine-Tuning BERT
+│
+├── 📁 comparaison_tp/                       # TP 2 : Comparaison d'architectures Transformer
+│   ├── 📓 architecture_comparaison.ipynb     # Notebook comparant BERT, GPT-2 et T5
+│   └── 📄 README.md                         # Documentation du TP comparaison
+│
+├── 📁 LORA/                                 # TP 3 : Fine-tuning avec LoRA (PEFT)
+│   ├── 📓 LORA TP.ipynb                     # Notebook pour fine-tuning FLAN-T5 avec LoRA
+│   └── 📄 TO_LORA                           # Documentation et guide LoRA (format texte)
+│
+├── 📁 promping_tp/                          # TP 4 : Techniques de prompting
+│   ├── 📓 tp_promping.ipynb                 # Notebook complet sur les prompts
+│   ├── 📓 tp_promping_To_Do.ipynb           # Version avec sections TODO à compléter
+│   └── 📄 Readme.md                         # Guide sur les techniques de prompting
+│
+└── 📁 teacher_forcing/                      # TP 5 : Teacher Forcing pour LLMs
+    ├── 🐍 TP_teacher_forcing.py            # Script Python démontrant le Teacher Forcing
+    ├── 📊 ManaGPT-1020_4080_prompts_and_generated_texts.csv  # Dataset d'exemple
+    ├── 📄 techer_forcing_TP.pdf             # Document PDF explicatif
+    └── 📄 README.md                         # Documentation du concept Teacher Forcing
 ```
+
+---
+
+## 📋 Description détaillée de tous les fichiers
+
+### 📄 Fichiers racine
+
+#### `README.md` (ce fichier)
+Guide d'utilisation complet du projet. Contient :
+- Instructions d'installation et configuration
+- Guide détaillé pour chaque TP
+- Dépannage et FAQ
+- Ressources supplémentaires
+
+#### `requirements.txt`
+Liste des dépendances Python nécessaires pour tous les TPs :
+- `numpy==1.25.2`
+- `pandas==2.2.2`
+- `scikit-learn==1.3.2`
+- `torch==2.2.0`
+- `transformers==4.34.0`
+- `datasets==2.13.1`
+- `tokenizers==0.14.3`
+- `sentencepiece==0.1.99`
+- `accelerate==0.17.0`
+- `evaluate==0.4.0`
+- `jupyter==1.0.0`
+- `tqdm==4.66.1`
+- `matplotlib==3.7.1`
+- `seaborn==0.12.2`
+- `protobuf==4.23.4`
+
+---
+
+### 📁 Fine-Tuning_BERT/ - TP 1 : Fine-tuning BERT
+
+#### `notebooks/Bert_cassification (1).ipynb`
+**Notebook principal avec 5 sections TODO à compléter**
+
+**Contenu :**
+- Installation automatique des dépendances
+- Prétraitement des tweets (nettoyage, suppression stopwords, etc.)
+- Tokenization BERT avec padding et truncation
+- Création de DataLoaders PyTorch
+- Fine-tuning du modèle BERT-base-uncased
+- Évaluation et sauvegarde du meilleur modèle
+- Prédictions sur le jeu de test
+
+**5 sections TODO :**
+1. **Cellule 13** : Tokenization et padding
+2. **Cellule 16** : Création des DataLoaders
+3. **Cellule 18** : Configuration de l'optimiseur AdamW
+4. **Cellule 20** : Scheduler de learning rate
+5. **Cellule 23** : Boucle d'entraînement complète
+
+#### `data/train.csv`
+**Dataset d'entraînement** (7613 lignes)
+- Colonnes : `id`, `keyword`, `location`, `text`, `target`
+- `text` : Texte du tweet à classifier
+- `target` : Label binaire (0 = non-catastrophe, 1 = catastrophe réelle)
+
+#### `data/test.csv`
+**Dataset de test** (3263 lignes)
+- Colonnes : `id`, `keyword`, `location`, `text`
+- `text` : Texte du tweet à prédire
+- Pas de colonne `target` (à prédire)
+
+#### `submission/sample_submission.csv`
+**Format de soumission attendu**
+- Colonnes : `id`, `target`
+- Format CSV avec les prédictions pour chaque ID du test
+
+#### `models/`
+Dossier vide qui contiendra les modèles sauvegardés après entraînement :
+- `bert_model_state.bin` : Poids du meilleur modèle (selon validation accuracy)
+
+#### `README.md`
+Documentation spécifique au module Fine-Tuning BERT avec détails techniques.
+
+---
+
+### 📁 comparaison_tp/ - TP 2 : Comparaison d'architectures
+
+#### `architecture_comparaison.ipynb`
+**Notebook comparant 3 architectures Transformer**
+
+**Objectif :** Comparer les performances de :
+- **BERT** (encodeur) : Modèle bidirectionnel pour comprendre le texte
+- **GPT-2** (décodeur) : Modèle génératif unidirectionnel
+- **T5** (encodeur-décodeur) : Modèle séquentiel pour transformation de texte
+
+**Métriques comparées :**
+- Accuracy
+- F1-score
+- Temps d'entraînement
+- Temps d'inférence
+
+**Dataset utilisé :** AG News (120 000 articles, 4 catégories)
+
+#### `README.md`
+Documentation expliquant :
+- Les différences entre les 3 architectures
+- Comment utiliser le notebook
+- Interprétation des résultats
+
+---
+
+### 📁 LORA/ - TP 3 : Fine-tuning avec LoRA
+
+#### `LORA TP.ipynb`
+**Notebook pour fine-tuning FLAN-T5 avec LoRA (PEFT)**
+
+**Objectif :** Apprendre à utiliser LoRA (Low-Rank Adaptation) pour :
+- Fine-tuner efficacement de grands modèles
+- Réduire l'empreinte mémoire (VRAM)
+- Entraîner sur GPU modestes (Colab T4, Kaggle)
+
+**Technologies :**
+- Modèle : Google FLAN-T5 Base
+- Méthode : LoRA via la librairie PEFT
+- Tâche : Dialogue Summarization
+- Métrique : ROUGE score
+
+#### `TO_LORA`
+**Documentation et guide LoRA**
+Fichier texte contenant :
+- Explications sur la méthode LoRA
+- Instructions d'utilisation
+- Paramètres et configuration
+
+---
+
+### 📁 promping_tp/ - TP 4 : Techniques de prompting
+
+#### `tp_promping.ipynb`
+**Notebook complet sur les techniques de prompting**
+
+**Contenu :**
+- Connexion à OpenRouter API
+- Différents types de prompts :
+  - Instructions simples
+  - Questions guidées
+  - Prompts contextuels
+  - Prompts formatés
+- Techniques avancées :
+  - Zero-shot prompting
+  - Few-shot prompting
+  - Chain-of-thought prompting
+  - Role prompting
+- Comparaisons de résultats selon la formulation
+
+#### `tp_promping_To_Do.ipynb`
+**Version avec sections TODO à compléter**
+Notebook pédagogique où l'étudiant doit :
+- Compléter les appels API
+- Tester différents types de prompts
+- Comparer les résultats
+
+#### `Readme.md`
+**Guide sur les techniques de prompting**
+Contient :
+- Instructions pour obtenir une clé API OpenRouter
+- Explications des différents types de prompts
+- Bonnes pratiques de sécurité (ne pas partager la clé API)
+- Objectifs pédagogiques
+
+---
+
+### 📁 teacher_forcing/ - TP 5 : Teacher Forcing
+
+#### `TP_teacher_forcing.py`
+**Script Python démontrant le concept de Teacher Forcing**
+
+**Objectif pédagogique :** Illustrer comment le Teacher Forcing fonctionne lors de l'entraînement de LLMs.
+
+**Concept :**
+- Technique d'entraînement pour modèles génératifs
+- Utilise les tokens corrects de la séquence d'entraînement au lieu des prédictions du modèle
+- Stabilise et accélère l'apprentissage
+
+**Utilisation :**
+```bash
+python TP_teacher_forcing.py
+```
+
+#### `ManaGPT-1020_4080_prompts_and_generated_texts.csv`
+**Dataset d'exemple**
+Fichier CSV contenant :
+- Prompts d'entrée
+- Textes générés par le modèle
+- Utilisé pour démontrer le Teacher Forcing
+
+#### `techer_forcing_TP.pdf`
+**Document PDF explicatif**
+Documentation détaillée sur :
+- Le concept de Teacher Forcing
+- Son importance dans l'entraînement des LLMs
+- Exemples et illustrations
+
+#### `README.md`
+**Documentation du concept Teacher Forcing**
+Contient :
+- Explication du concept avec analogies
+- Instructions d'utilisation du script
+- Prérequis et installation
+
+---
+
+## 🎯 Vue d'ensemble des TPs
+
+| TP | Dossier | Objectif principal | Technologies |
+|---|---|---|---|
+| **TP 1** | `Fine-Tuning_BERT/` | Fine-tuning BERT pour classification binaire | BERT, PyTorch, Transformers |
+| **TP 2** | `comparaison_tp/` | Comparer 3 architectures Transformer | BERT, GPT-2, T5 |
+| **TP 3** | `LORA/` | Fine-tuning efficace avec LoRA | FLAN-T5, PEFT, LoRA |
+| **TP 4** | `promping_tp/` | Techniques de prompting pour LLMs | OpenRouter API, Prompting |
+| **TP 5** | `teacher_forcing/` | Comprendre le Teacher Forcing | Python, Concepts LLM |
+
+---
+
+## 🚀 Guide de démarrage rapide par TP
+
+### TP 1 : Fine-Tuning BERT
+```bash
+cd Fine-Tuning_BERT/notebooks
+jupyter notebook "Bert_cassification (1).ipynb"
+```
+👉 Voir la section détaillée ci-dessous dans ce README
+
+### TP 2 : Comparaison d'architectures
+```bash
+cd comparaison_tp
+jupyter notebook architecture_comparaison.ipynb
+```
+👉 Consultez `comparaison_tp/README.md` pour les détails
+
+### TP 3 : LoRA
+```bash
+cd LORA
+jupyter notebook "LORA TP.ipynb"
+```
+👉 Consultez `LORA/TO_LORA` pour les instructions
+
+### TP 4 : Prompting
+```bash
+cd promping_tp
+jupyter notebook tp_promping.ipynb
+```
+👉 Consultez `promping_tp/Readme.md` pour obtenir la clé API
+
+### TP 5 : Teacher Forcing
+```bash
+cd teacher_forcing
+python TP_teacher_forcing.py
+```
+👉 Consultez `teacher_forcing/README.md` pour les détails
+
+---
 
 ---
 
