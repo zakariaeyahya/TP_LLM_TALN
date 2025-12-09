@@ -1,0 +1,38 @@
+# 📝 Fine-Tuning FLAN-T5 avec LoRA (PEFT)
+
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red)
+![HuggingFace](https://img.shields.io/badge/HuggingFace-Transformers-yellow)
+![PEFT](https://img.shields.io/badge/PEFT-LoRA-orange)
+
+Ce projet démontre comment effectuer un **Fine-Tuning efficace (Parameter-Efficient Fine-Tuning)** sur le modèle **Google FLAN-T5 Base** pour une tâche de résumé de dialogues, en utilisant la méthode **LoRA (Low-Rank Adaptation)**.
+
+L'objectif est d'obtenir des performances élevées tout en réduisant drastiquement l'empreinte mémoire, permettant l'entraînement sur des GPU modestes (ex: Google Colab, Kaggle T4).
+
+## 🎯 Objectifs
+
+* Adapter un LLM généraliste (FLAN-T5) à la tâche de **Dialogue Summarization**.
+* Utiliser la librairie `PEFT` pour injecter des adaptateurs LoRA.
+* Optimiser l'utilisation VRAM (chargement en `bfloat16`, attention réduite).
+* Évaluer les performances avec le score **ROUGE**.
+
+## 📂 Dataset
+
+Le projet utilise le dataset **[DialogSum](https://huggingface.co/datasets/knkarthick/dialogsum)**, qui contient des dialogues de la vie réelle accompagnés de résumés humains.
+
+## 🛠️ Installation
+
+Assurez-vous d'avoir un environnement Python 3.10+ avec support GPU.
+
+```bash
+# Mise à jour de pip
+pip install --upgrade pip
+
+# Installation de PyTorch (compatible CUDA)
+pip install --upgrade torch torchvision torchaudio
+
+# Installation des bibliothèques Hugging Face et PEFT
+pip install --upgrade datasets transformers peft evaluate rouge_score loralib
+
+# Fix potentiel pour protobuf si nécessaire
+pip install protobuf==3.20.3
